@@ -2,8 +2,48 @@
 
 template <typename T>
 State<T> FrontierQueue<T>::pop() {
+  //check if the que has nothing insdie it
+  if (empty()) {
+        return State<T>(T(), 0, 0); 
+    }
+    //first item in the root
+  State<T> root = queue.front();
 
-  return State<T>(T(),0,0);
+  //remove the front of the que by putting it in the back
+  queue.front() = queue.back();
+  queue.pop_back();
+  //sift down by checking if it has items inside it 
+  if (!empty()) {
+    //parrent starts at zero
+         int parent = 0;
+         int size = queue.size();
+//repeat untill break out of the loop
+          while (true) {
+              int leftChild = 2 * parent + 1;
+              int rightChild = 2 * parent + 2;
+              int smallest = parent;
+
+              //see if lift is smaller than the parent
+              if (leftChild < size && queue[leftChild].getFCost() < queue[smallest].getFCost())
+              {
+                 smallest = leftChild;
+              }
+             //see if the right is smaller than the smallest one right now
+             if (rightChild < size && queue[rightChild].getFCost() < queue[smallest].getFCost())
+             {
+                  smallest = rightChild;
+             }
+              //swaping if smallest is no the parent
+             if (smallest != parent) {
+                  std::swap(queue[parent], queue[smallest]);
+                  parent = smallest;
+             } else {
+              //get out of the loop
+                 break;
+             }
+        }
+    }
+    return root;
 }
 
 template <typename T>
