@@ -87,9 +87,37 @@ for (const auto& state : queue) {
 
 template <typename T>
 void FrontierQueue<T>::replaceif(const T &p, std::size_t cost) {
+  //go from the start to the end of the que
+for (std::size_t i = 0; i < queue.size(); ++i) {
+  //look for the value needed
+        if (queue[i].getValue() == p) {
+            // if the que is lower than the cost
+            if (cost < queue[i].getPathCost()) {
+                //find the orginal
+                std::size_t heur = queue[i].getFCost() - queue[i].getPathCost();
+                //get the lower cost option
+                queue[i] = State<T>(p, cost, heur);
+                //saame idea but going up the que as before
 
-  //TODO
+                int child = i;
 
+                while (child > 0) {
+
+                    int parent = (child - 1) / 2;
+
+                    if (queue[child].getFCost() < queue[parent].getFCost()) {
+
+                        std::swap(queue[child], queue[parent]);
+                        child = parent;
+                        
+                    } else {
+                        break;
+                    }
+                }
+            }
+            return; 
+        }
+    }
 }
 
 
