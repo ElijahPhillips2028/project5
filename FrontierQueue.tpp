@@ -69,17 +69,18 @@ void FrontierQueue<T>::push(const T &p, std::size_t cost, std::size_t heur) {
 
 template <typename T>
 bool FrontierQueue<T>::empty() const {
-
-  //TODO
-
-  return true;
+return queue.empty();
 }
 
 template <typename T> 
 bool FrontierQueue<T>::contains(const T &p) const {
-
-  //TODO
-
+//loop for the que and look for the value inside the loop
+for (const auto& state : queue) {
+  //find the accurate value
+        if (state.getValue() == p) {
+            return true;
+        }
+    }
   return false;
 
 }
